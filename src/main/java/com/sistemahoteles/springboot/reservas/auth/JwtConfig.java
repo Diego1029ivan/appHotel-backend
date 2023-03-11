@@ -1,0 +1,41 @@
+package com.sistemahoteles.springboot.reservas.auth;
+
+public class JwtConfig {
+	public static final String LLAVE_SECRETA = "alguna.clave.secreta.12345678";
+	public static final String RSA_PRIVADA = "-----BEGIN RSA PRIVATE KEY-----\r\n"
+			+ "MIIEpQIBAAKCAQEAvtLsBprXpvi+pym1UpI4AQ9J9aREYXfpmj7PylT78/64iJra\r\n"
+			+ "RSe9sVovlcI86yWjFn/s6CLhmZrRO+CvPBa9VNnyO7b4R7jUYVFZaBY7N5FRxrmc\r\n"
+			+ "5qtKRd4UTEcr/TQz7yS7hpTTC1paGd0MJPSexeiIOAPlkaZqUrbarA71ibviIaPP\r\n"
+			+ "UDhjg5xOgjQ20xI8Mie0NAGVuqAONT55cswPDVd/LjeTewSNzA62wb4mEpIBoHdt\r\n"
+			+ "+uvUNQVPqj5TLQRtmm84j4l9TknUZEi1n+U04+kwXpaFiCrnpv3MANoFIQ/E6g96\r\n"
+			+ "+gzdQLjGLbGWZ5YD4JKd3QRnOFnfO7c+U6CNuwIDAQABAoIBAQCTUrpAeylFUsO2\r\n"
+			+ "wR+pSRQN1WTvTcwxR+fFWvsHpccDYEPNy2f6fi0YkJ0uTNDFZsBbrZYUvmFYOsuR\r\n"
+			+ "I+2GQbQYn09BxQg4Lz1giPKyxn8fboUpHMJC4DmuaT9YiJYwnS3/UmepBptNJ4tq\r\n"
+			+ "blti6Kzv9I++V1vUsBtkEqIOtlng5CHTqZaLB39t6ba5xpC9JNXOAlTz2JPOhs8z\r\n"
+			+ "eXfddKy8gMKz1UD0IfmiF5uNhKRn14Tbyrk8pvP9IW4y2jR3bI4VJxWipxahMMwO\r\n"
+			+ "qmEWK93tm8mSx5CAYmB2o0v1KeIINTJAUS8zOOwFnX/+NfzNJmjbeq1N8KlauQTI\r\n"
+			+ "inXl+xUJAoGBAPz2cvprk456ggr9QyrPYa136FerBCnKJJlcaAcDN04fytYzeuUG\r\n"
+			+ "6WG+0/EKtUq96K6I04pBaO67fl7fQoNyMH6XVNoTlkk8ZyNSrKuqu7noeLHKYBlx\r\n"
+			+ "drNDMbJXUTIitdiImKv4cvVoQfUka14X6lxG1cegD4C+XujqtO5PtG1dAoGBAMEd\r\n"
+			+ "eNvfS7Hwry3sKSkEd0iC57BpfcZoy9BvK3tXU+Ya2boIRYteT06oryjq7gf9P062\r\n"
+			+ "155e+BFyehuZxFi8Ns4476mDnyrRzHGDUQbVRtiC5rdDgu6QzCcHArxYjnrVt2/6\r\n"
+			+ "X25CgpHQjahSvAwvk5TE8Z6dbEUJyswhvwXazZ33AoGBAI/353pUjXdSi/6bI4YS\r\n"
+			+ "30Gt88MpZsYt8OSDrgUHtIs3FucQB4qfg2YJCHCwKnvuV6Y140dVcNYmSYbPQ/ix\r\n"
+			+ "nZ3+nOE8spTd1slIvVM6aXsmLsLpLgZtCCSAQqGAhoqlLJ+fJl0BmtPG0XsmjiDQ\r\n"
+			+ "Nabs/bCOjSQ1tKiVJAJZxJNVAoGBAJ4LQ7UWGvnmk0ePBeSGviR+1aS/wOqXK25K\r\n"
+			+ "/Rf1UTl5cgTY7ilwJpGmZaukEOhC7wO5id8XtAd7W8mo31MLvgKqACIIEURW7O1d\r\n"
+			+ "Xfusok1hW/ZR7x7VK+8owqloBDstGvIuwtkW34r8VmKSS0nhyfMv9tor1cbui6Ti\r\n"
+			+ "XVYqSqrjAoGACgJWkfdWmJLvhracqHKMn1WdWEbeTpSTWuTvA2gP/S1N3H1ZQH/P\r\n"
+			+ "0ZPcMFoemQBUqbS5DcJ/KR56pNymqE8jObx8TmR3KqWJfQgR77NAbYMvY/2mAZ+t\r\n"
+			+ "V9oXBQCQdp7SHkwNv3FIF/jnZjhAp7zQ/XYK3INiFIqhI83HGJVCyCg=\r\n"
+			+ "-----END RSA PRIVATE KEY-----";
+	public static final String RSA_PUBLICA= "-----BEGIN PUBLIC KEY-----\r\n"
+			+ "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAvtLsBprXpvi+pym1UpI4\r\n"
+			+ "AQ9J9aREYXfpmj7PylT78/64iJraRSe9sVovlcI86yWjFn/s6CLhmZrRO+CvPBa9\r\n"
+			+ "VNnyO7b4R7jUYVFZaBY7N5FRxrmc5qtKRd4UTEcr/TQz7yS7hpTTC1paGd0MJPSe\r\n"
+			+ "xeiIOAPlkaZqUrbarA71ibviIaPPUDhjg5xOgjQ20xI8Mie0NAGVuqAONT55cswP\r\n"
+			+ "DVd/LjeTewSNzA62wb4mEpIBoHdt+uvUNQVPqj5TLQRtmm84j4l9TknUZEi1n+U0\r\n"
+			+ "4+kwXpaFiCrnpv3MANoFIQ/E6g96+gzdQLjGLbGWZ5YD4JKd3QRnOFnfO7c+U6CN\r\n"
+			+ "uwIDAQAB\r\n"
+			+ "-----END PUBLIC KEY-----"; 
+	}
