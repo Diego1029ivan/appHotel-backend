@@ -85,7 +85,7 @@ public class ReporteReservasController {
 			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		response.put("mensaje", "Correo enviado");
+		response.put("mensaje", "Correo enviado!!");
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 		}
 	
