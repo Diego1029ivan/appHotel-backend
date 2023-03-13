@@ -102,10 +102,12 @@ public class ServiciosOtrosHotelesControllers {
 
 	}
 
-	@PostMapping("/picina")
-	public ResponseEntity<?> crearPicina(@Valid @RequestBody Picina picina, BindingResult result) {
+	@PostMapping("/picina/hotel/{id_hotel}")
+	public ResponseEntity<?> crearPicina(@Valid @RequestBody Picina picina, BindingResult result
+			,  @PathVariable Long id_hotel) {
 
 		Picina picinaNuevo = null;
+		Hotel hotelCarga;
 
 		Map<String, Object> response = new HashMap<>();
 
@@ -119,7 +121,8 @@ public class ServiciosOtrosHotelesControllers {
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
 		}
 		try {
-
+			hotelCarga=hotelService.findById(id_hotel);
+			picina.setHotel(hotelCarga);
 			picinaNuevo = picinaServices.savePicina(picina);
 
 		} catch (DataAccessException e) {
@@ -134,13 +137,14 @@ public class ServiciosOtrosHotelesControllers {
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);// 201
 	}
 
-	@PutMapping("/picina/{id}")
+	@PutMapping("/picina/{id}/hotel/{id_hotel}")
 	public ResponseEntity<?> updatePicina(@Valid @RequestBody Picina picina, BindingResult result,
-			@PathVariable Long id) {
+			@PathVariable Long id, @PathVariable Long id_hotel) {
 		Map<String, Object> response = new HashMap<>();
 
 		Picina picinaActual = picinaServices.findById(id);
 		Picina picinaUpdate = null;
+		Hotel hotelCarga;
 
 		if (result.hasErrors()) {
 
@@ -159,15 +163,14 @@ public class ServiciosOtrosHotelesControllers {
 		}
 
 		try {
+			hotelCarga=hotelService.findById(id_hotel);
 			picinaActual.setPrecioPicina(picina.getPrecioPicina());
 			picinaActual.setHorarioInicio(picina.getHorarioInicio());
 			picinaActual.setHorarioCierre(picina.getHorarioCierre());
 			picinaActual.setDescripcionPicina(picina.getDescripcionPicina());
-
-			if (picina.getHotel() != null) {
-				picina.setHotel(picina.getHotel());
-			}
-
+			picinaActual.setHotel(hotelCarga);
+	
+	
 			picinaUpdate = picinaServices.savePicina(picinaActual);
 		} catch (DataAccessException e) {
 			response.put("mensaje", "Error al actualizar el picina en la base de datos");
@@ -235,11 +238,12 @@ public class ServiciosOtrosHotelesControllers {
 		return new ResponseEntity<Galeria>(galeriaOne, HttpStatus.OK);// 200
 
 	}
-	@PostMapping("/galeria")
-	public ResponseEntity<?> crearGaleria(@Valid @RequestBody Galeria galeria, BindingResult result) {
+	@PostMapping("/galeria/hotel/{id_hotel}")
+	public ResponseEntity<?> crearGaleria(@Valid @RequestBody Galeria galeria, BindingResult result
+			,  @PathVariable Long id_hotel) {
 
 		Galeria galeriaNuevo = null;
-
+		Hotel hotelCarga;
 		Map<String, Object> response = new HashMap<>();
 
 		if (result.hasErrors()) {
@@ -252,7 +256,8 @@ public class ServiciosOtrosHotelesControllers {
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
 		}
 		try {
-
+			hotelCarga=hotelService.findById(id_hotel);
+			galeria.setHotel(hotelCarga);
 			galeriaNuevo = galeriaServices.saveCochera(galeria);
 
 		} catch (DataAccessException e) {
@@ -266,6 +271,57 @@ public class ServiciosOtrosHotelesControllers {
 
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);// 201
 	}
+	
+	@PutMapping("/galeria/{id}/hotel/{id_hotel}")
+	public ResponseEntity<?> updateGaleria(@Valid @RequestBody Galeria galeria,
+			BindingResult result, @PathVariable Long id, @PathVariable Long id_hotel) {
+		Map<String, Object> response = new HashMap<>();
+		
+		Hotel hotelCarga;
+		
+		Galeria galeriaActual = galeriaServices.findById(id);
+				Galeria galeriaActualUpdate = null;
+
+		if (result.hasErrors()) {
+
+			List<String> errors = result.getFieldErrors().stream()
+					.map(err -> "El campo '" + err.getField() + "' " + err.getDefaultMessage())
+					.collect(Collectors.toList());
+
+			response.put("errors", errors);
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
+		}
+
+		if (galeriaActual == null) {
+			response.put("mensaje", "Error no se pudo editar, el galeria ID: "
+					.concat(id.toString().concat(" no existe en la base de datos!")));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
+		}
+
+		try {
+			hotelCarga=hotelService.findById(id_hotel);
+			
+			galeriaActual.setDescripcion(galeria.getDescripcion());
+			galeriaActual.setDescripcionf1(galeria.getDescripcionf1());
+			galeriaActual.setDescripcionf2(galeria.getDescripcionf2());
+			galeriaActual.setDescripcionf3(galeria.getDescripcionf1());
+			galeriaActual.setHotel(hotelCarga);
+			
+			galeriaActualUpdate = galeriaServices.saveCochera(galeriaActual);
+		} catch (DataAccessException e) {
+			response.put("mensaje", "Error al actualizar el habitacion en la base de datos");
+			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+		response.put("mensaje", "La galeria ha sido actualizado con 'exito!");
+		response.put("habitacion", galeriaActualUpdate);
+
+		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);// 201
+
+	}
+	
+	
 
 	@PostMapping("/galeria/uploadfoto1")
 	public ResponseEntity<?> uploadGaleria(@RequestParam("archivo") MultipartFile archivo,	@RequestParam("id") Long id) {
@@ -274,7 +330,7 @@ public class ServiciosOtrosHotelesControllers {
 		Galeria galeriafotos = galeriaServices.findById(id);
 
 		if (!archivo.isEmpty()) {
-			String nombreArchivo = null;
+			String nombreArchivo = null; 
 			try {
 				nombreArchivo = uploadService.copiar(archivo);
 			} catch (IOException e) {
@@ -386,11 +442,12 @@ public class ServiciosOtrosHotelesControllers {
 		return new ResponseEntity<PrecioxTipoHabitacion>(precioxHabitacion, HttpStatus.OK);// 200
 
 	}
-	@PostMapping("/tipoHabitacion")
-	public ResponseEntity<?> crearPrecioHabitacion(@Valid @RequestBody PrecioxTipoHabitacion precioxHabitacion, BindingResult result) {
+	@PostMapping("/tipoHabitacion/hotel/{id_hotel}")
+	public ResponseEntity<?> crearPrecioHabitacion(@Valid @RequestBody PrecioxTipoHabitacion precioxHabitacion, 
+			BindingResult result, @PathVariable Long id_hotel) {
 
 		PrecioxTipoHabitacion precioxHabitacionNuevo = null;
-
+		Hotel hotelCarga;
 		Map<String, Object> response = new HashMap<>();
 
 		if (result.hasErrors()) {
@@ -403,7 +460,8 @@ public class ServiciosOtrosHotelesControllers {
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
 		}
 		try {
-
+			hotelCarga=hotelService.findById(id_hotel);
+			precioxHabitacion.setHotel(hotelCarga);
 			precioxHabitacionNuevo = precioxTHabitacionServices.savePrecioxTipoHabitacion(precioxHabitacion);
 
 		} catch (DataAccessException e) {
@@ -417,11 +475,12 @@ public class ServiciosOtrosHotelesControllers {
 
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);// 201
 	}
-	@PutMapping("/tipoHabitacion/{id}")
-	public ResponseEntity<?> updatePrecioHabitacion(@Valid @RequestBody PrecioxTipoHabitacion precio, BindingResult result,
-			@PathVariable Long id) {
+	@PutMapping("/tipoHabitacion/{id}/hotel/{id_hotel}")
+	public ResponseEntity<?> updatePrecioHabitacion(@Valid @RequestBody PrecioxTipoHabitacion precio,
+			BindingResult result, @PathVariable Long id, @PathVariable Long id_hotel) {
 		Map<String, Object> response = new HashMap<>();
-
+		
+		Hotel hotelCarga;
 		PrecioxTipoHabitacion precioxHabitacionActual=precioxTHabitacionServices.findById(id);
 		
 		PrecioxTipoHabitacion habitacionUpdate = null;
@@ -443,9 +502,11 @@ public class ServiciosOtrosHotelesControllers {
 		}
 
 		try {
+			hotelCarga=hotelService.findById(id_hotel);
+			
 			precioxHabitacionActual.setPrecio(precio.getPrecio());
 			precioxHabitacionActual.setTipoHabitacion(precio.getTipoHabitacion());
-			
+			precioxHabitacionActual.setHotel(hotelCarga);
 			precioxHabitacionActual.setCantidad(precio.getCantidad());
 			
 			habitacionUpdate = precioxTHabitacionServices.savePrecioxTipoHabitacion(precioxHabitacionActual);
@@ -488,7 +549,7 @@ public class ServiciosOtrosHotelesControllers {
 	public ResponseEntity<?> crearUbicacion(@Valid @RequestBody Ubicacion ubicacion, BindingResult result) {
 
 		Ubicacion ubicacionNueva = null;
-
+		
 		Map<String, Object> response = new HashMap<>();
 
 		if (result.hasErrors()) {
@@ -511,10 +572,11 @@ public class ServiciosOtrosHotelesControllers {
 		}
 
 		response.put("mensaje", "La Ubicación ha sido creado con 'exito!");
-		response.put("picina", ubicacionNueva);
+		response.put("ubicacion", ubicacionNueva);
 
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);// 201
 	}
+	
 	@PostMapping("/ubicacion/upload")
 	public ResponseEntity<?> uploadFotoUbicacion(@RequestParam("archivo") MultipartFile archivo,
 			@RequestParam("id") Long id) {
@@ -545,6 +607,56 @@ public class ServiciosOtrosHotelesControllers {
 		}
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);// 201
 	}
+	@PutMapping("/ubicacion/{id}")
+	public ResponseEntity<?> updateUbicacion(@Valid @RequestBody Ubicacion ubicacion, BindingResult result,
+			@PathVariable Long id) {
+		Map<String, Object> response = new HashMap<>();
+
+		Ubicacion ubicacionActual=ubicacionServices.findById(id);
+		
+		Ubicacion habitacionUpdate = null;
+
+		if (result.hasErrors()) {
+
+			List<String> errors = result.getFieldErrors().stream()
+					.map(err -> "El campo '" + err.getField() + "' " + err.getDefaultMessage())
+					.collect(Collectors.toList());
+
+			response.put("errors", errors);
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
+		}
+
+		if (ubicacionActual == null) {
+			response.put("mensaje", "Error no se pudo editar, el ubicacion ID: "
+					.concat(id.toString().concat(" no existe en la base de datos!")));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
+		}
+
+		try {
+			ubicacionActual.setPais(ubicacion.getPais());
+			ubicacionActual.setDepartamento(ubicacion.getDepartamento());
+			
+			ubicacionActual.setCiudad(ubicacion.getCiudad());
+			ubicacionActual.setDescripcionCiudad(ubicacion.getDescripcionCiudad());
+			
+			habitacionUpdate = ubicacionServices.saveUbicacion(ubicacionActual);
+		} catch (DataAccessException e) {
+			response.put("mensaje", "Error al actualizar la ubicacion en la base de datos");
+			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+		response.put("mensaje", "La ubicacion ha sido actualizado con 'exito!");
+		response.put("ubicacion", habitacionUpdate);
+
+		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);// 201
+
+	}
+	
+	
+	
+	
+	
 	@GetMapping("/ubicacion")
 	public List<Ubicacion> Mostra() {
 		return ubicacionServices.findAll();
@@ -554,28 +666,11 @@ public class ServiciosOtrosHotelesControllers {
 	public List<ReservaHotel> MostrarRESERVA() {
 		return reservaServices.findAll();
 	}
-	
-	@GetMapping("/reserva/{id}")
-	public ResponseEntity<?> mostarOneReserva(@PathVariable Long id) {
-
-		ReservaHotel reservaOne = null;
-
-		Map<String, Object> response = new HashMap<>();
-
-		try {
-			reservaOne = reservaServices.findById(id);
-		} catch (DataAccessException e) {
-			response.put("mensaje", "Error al realizar la colsulta en la base de datos");
-			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
-			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-		if (reservaOne == null) {
-			response.put("mensaje", "La ubicación por ID: ".concat(id.toString().concat(" no existe en la base de datos!")));
-			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
-		}
-		return new ResponseEntity<ReservaHotel>(reservaOne, HttpStatus.OK);// 200
-
+	@GetMapping("/reserva/hotel/{id}")
+	public List<ReservaHotel> reservaxHotel(@PathVariable Long id) {
+		return reservaServices.lisReservaxhotel(id);
 	}
+	
 	
 	@PostMapping("/reserva/user/{id_user}/hote/{id_hotel}")
 	public ResponseEntity<?> crearReseva(@Valid @RequestBody ReservaHotel reserva, BindingResult result,

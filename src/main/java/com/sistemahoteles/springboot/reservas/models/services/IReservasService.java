@@ -13,4 +13,5 @@ public interface IReservasService {
 		public ReservaHotel saveReserva(ReservaHotel reserva);
 		
 		public void delete (Long id);
+		public List<ReservaHotel>lisReservaxhotel(Long iduser);
 }
