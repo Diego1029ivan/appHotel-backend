@@ -37,6 +37,10 @@ public class ReservaServices implements IReservasService{
 		// TODO Auto-generated method stub
 		
 	}
-
+	@Override
+	public List<ReservaHotel> lisReservaxhotel(Long iduser) {
+		// TODO Auto-generated method stub
+		return reservasDao.lisReservaxhotel(iduser);
+	}
 		
 }
