@@ -1,6 +1,8 @@
 package com.sistemahoteles.springboot.reservas.models.entity;
 
 
+import java.sql.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -26,6 +28,8 @@ public class Testimonio {
 		private String detalle_testimonio;
 		
 		private Integer estado;
+		
+		private Date fecha;
 
 		public Long getId() {
 			return id;
@@ -63,6 +67,15 @@ public class Testimonio {
 		public void setUsuario(Usuario usuario) {
 			this.usuario = usuario;
 		}
+
+		public Date getFecha() {
+			return fecha;
+		}
+
+		public void setFecha(Date fecha) {
+			this.fecha = fecha;
+		}
+		
 		
 		
 		

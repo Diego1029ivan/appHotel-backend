@@ -92,10 +92,14 @@ INSERT INTO `precioxtipo_habitaciones` (tipo_habitacion,  hoteles_id, precio, ca
 INSERT INTO `precioxtipo_habitaciones` (tipo_habitacion,  hoteles_id, precio, cantidad) VALUES ('Matrimonial', 4, 140,20);
 
 /*Testimonios*/
-INSERT INTO `testimonios` (detalle_testimonio,  usuario_id, estado) VALUES ('Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ullam enim magnam nihil? Soluta eius vel dolore iusto sed excepturi ducimus?', 1,1);
-INSERT INTO `testimonios` (detalle_testimonio,  usuario_id, estado) VALUES ('Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ullam enim magnam nihil? Soluta eius vel dolore iusto sed excepturi ducimus?', 2,1);
-INSERT INTO `testimonios` (detalle_testimonio,  usuario_id, estado) VALUES ('Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ullam enim magnam nihil? Soluta eius vel dolore iusto sed excepturi ducimus?', 3,1);
-INSERT INTO `testimonios` (detalle_testimonio,  usuario_id, estado) VALUES ('Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ullam enim magnam nihil? Soluta eius vel dolore iusto sed excepturi ducimus?', 1,1);
+INSERT INTO `testimonios` (detalle_testimonio,  usuario_id, estado,fecha) VALUES ('Esta página web de reservas de hoteles es lo máximo. Encontré el hotel perfecto en la ciudad que siempre quise visitar y pude reservar de manera fácil y rápida. ¡Recomiendo ampliamente este sitio web para planear tus próximas vacaciones!', 1,1,'2022-08-16');
+INSERT INTO `testimonios` (detalle_testimonio,  usuario_id, estado,fecha) VALUES ('Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ullam enim magnam nihil? Soluta eius vel dolore iusto sed excepturi ducimus?', 2,1,'2022-08-16');
+INSERT INTO `testimonios` (detalle_testimonio,  usuario_id, estado,fecha) VALUES ('Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ullam enim magnam nihil? Soluta eius vel dolore iusto sed excepturi ducimus?', 3,1,'2022-08-16');
+INSERT INTO `testimonios` (detalle_testimonio,  usuario_id, estado,fecha) VALUES ('Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ullam enim magnam nihil? Soluta eius vel dolore iusto sed excepturi ducimus?', 1,1,'2022-08-16');
+INSERT INTO `testimonios` (detalle_testimonio,  usuario_id, estado,fecha) VALUES ('No tenía mucho tiempo para planear mis vacaciones, pero esta página web me salvó la vida. Encontré el hotel perfecto y pude reservar con facilidad. Definitivamente utilizaré este sitio web de nuevo.', 1,1,'2022-08-16');
+INSERT INTO `testimonios` (detalle_testimonio,  usuario_id, estado,fecha) VALUES ('Reservar con esta página web fue una experiencia increíble. Encontré una oferta de último momento en un hotel increíble y ahorré mucho dinero en mi estadía. ¡Gracias por hacer que mi viaje fuera inolvidable!', 2,1,'2022-08-16');
+INSERT INTO `testimonios` (detalle_testimonio,  usuario_id, estado,fecha) VALUES ('Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ullam enim magnam nihil? Soluta eius vel dolore iusto sed excepturi ducimus?', 3,1,'2022-08-16');
+INSERT INTO `testimonios` (detalle_testimonio,  usuario_id, estado,fecha) VALUES ('Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ullam enim magnam nihil? Soluta eius vel dolore iusto sed excepturi ducimus?', 1,1,'2022-08-16');
 
 /**tipo de pago**/
 INSERT INTO `tipo_pago` (detalle_tipo) VALUES ('Pago en efectivo');
