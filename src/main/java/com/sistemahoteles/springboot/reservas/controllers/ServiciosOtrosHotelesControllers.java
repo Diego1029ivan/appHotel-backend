@@ -29,6 +29,7 @@ import com.sistemahoteles.springboot.reservas.models.entity.Galeria;
 import com.sistemahoteles.springboot.reservas.models.entity.Hotel;
 import com.sistemahoteles.springboot.reservas.models.entity.Picina;
 import com.sistemahoteles.springboot.reservas.models.entity.PrecioxTipoHabitacion;
+import com.sistemahoteles.springboot.reservas.models.entity.Rating;
 import com.sistemahoteles.springboot.reservas.models.entity.ReservaHotel;
 import com.sistemahoteles.springboot.reservas.models.entity.Testimonio;
 import com.sistemahoteles.springboot.reservas.models.entity.TipoPago;
@@ -38,6 +39,7 @@ import com.sistemahoteles.springboot.reservas.models.services.IGaleriaServices;
 import com.sistemahoteles.springboot.reservas.models.services.IHotelesServices;
 import com.sistemahoteles.springboot.reservas.models.services.IPicinaServices;
 import com.sistemahoteles.springboot.reservas.models.services.IPrecioxTHabitacionServices;
+import com.sistemahoteles.springboot.reservas.models.services.IRatingServices;
 import com.sistemahoteles.springboot.reservas.models.services.IReservasService;
 import com.sistemahoteles.springboot.reservas.models.services.ITestimonioServices;
 import com.sistemahoteles.springboot.reservas.models.services.ITipoPagoServices;
@@ -78,6 +80,9 @@ public class ServiciosOtrosHotelesControllers {
 	
 	@Autowired
 	private ITipoPagoServices tipoPagoService;
+	
+	@Autowired
+	private IRatingServices ratingService;
 	
 
 	@GetMapping("/picina/{id}")
@@ -855,5 +860,54 @@ public class ServiciosOtrosHotelesControllers {
 	public List<TipoPago> MostrarPagos() {
 		return tipoPagoService.findAll();
 	}
+	
+	/**Clasificación de estrellas **/
+	
+	@GetMapping("/rating")
+	public List<Rating> MostrarRating() {
+		return ratingService.findAll();
+	}
+	
+	@PostMapping("/rating/user/{id_user}/hotel/{id_hotel}")
+	public ResponseEntity<?> crearRating(@Valid @RequestBody Rating rating, 
+			BindingResult result,
+			@PathVariable Long id_user,@PathVariable Long id_hotel) {
+		
+		Usuario usuarioCarga;
+		Hotel hotelCarga;
+		Rating ratingNuevo = null;
+
+		Map<String, Object> response = new HashMap<>();
+
+		if (result.hasErrors()) {
+
+			List<String> errors = result.getFieldErrors().stream()
+					.map(err -> "El campo '" + err.getField() + "' " + err.getDefaultMessage())
+					.collect(Collectors.toList());
+
+			response.put("errors", errors);
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
+		}
+		try {
+			usuarioCarga = usuarioServices.findById(id_user); 
+			hotelCarga = hotelService.findById(id_hotel);
+			
+			rating.setUsuario(usuarioCarga);
+			rating.setHotel(hotelCarga);
+			ratingNuevo = ratingService.saveRating(rating);
+			
+
+		} catch (DataAccessException e) {
+			response.put("mensaje", "Error al realizar el insert en la base de datos");
+			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+		response.put("mensaje", "El rating ha sido creado con 'exito!");
+		response.put("rating", ratingNuevo);
+
+		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);// 201
+	}
+	
 	
 }
