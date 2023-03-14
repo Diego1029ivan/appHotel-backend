@@ -112,7 +112,7 @@ public class ServiciosOtrosHotelesControllers {
 			,  @PathVariable Long id_hotel) {
 
 		Picina picinaNuevo = null;
-		Hotel hotelCarga;
+		Hotel hotelCarga; 
 
 		Map<String, Object> response = new HashMap<>();
 
@@ -675,7 +675,47 @@ public class ServiciosOtrosHotelesControllers {
 	public List<ReservaHotel> reservaxHotel(@PathVariable Long id) {
 		return reservaServices.lisReservaxhotel(id);
 	}
-	
+	@PutMapping("/reserva/{id}")
+	public ResponseEntity<?> updateReserva(@Valid @RequestBody ReservaHotel reserva, BindingResult result,
+			@PathVariable Long id) {
+		Map<String, Object> response = new HashMap<>();
+
+		ReservaHotel reservaActual=reservaServices.findById(id);
+		
+		ReservaHotel reservaUpdate = null;
+
+		if (result.hasErrors()) {
+
+			List<String> errors = result.getFieldErrors().stream()
+					.map(err -> "El campo '" + err.getField() + "' " + err.getDefaultMessage())
+					.collect(Collectors.toList());
+
+			response.put("errors", errors);
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
+		}
+
+		if (reservaActual == null) {
+			response.put("mensaje", "Error no se pudo editar, la reserva ID: "
+					.concat(id.toString().concat(" no existe en la base de datos!")));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
+		}
+
+		try {
+			reservaActual.setEstado(reserva.getEstado());
+			
+			reservaUpdate = reservaServices.saveReserva(reservaActual);
+		} catch (DataAccessException e) {
+			response.put("mensaje", "Error al actualizar la ubicacion en la base de datos");
+			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+		response.put("mensaje", "La reserva ha sido actualizado con 'exito!");
+		response.put("Reserva", reservaUpdate);
+
+		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);// 201
+
+	}
 	
 	@PostMapping("/reserva/user/{id_user}/hote/{id_hotel}")
 	public ResponseEntity<?> crearReseva(@Valid @RequestBody ReservaHotel reserva, BindingResult result,
