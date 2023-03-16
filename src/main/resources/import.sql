@@ -43,8 +43,19 @@ INSERT INTO `hoteles` (cantidad_habitacion, descripcion_hotel, estado_hotel, log
 INSERT INTO `hoteles` (cantidad_habitacion, descripcion_hotel, estado_hotel, logo, nombre_hotel, ruc, ubicacion_id, usuario_id) VALUES (20,'Lorem Ipsumis simply the filler text for printers and text files. Lorem Ipsum has been the standard filler text of industries since the 1500s,',1, 'SaraLogo1.png', 'Malibú Hotel',1234577891,1,7);
 INSERT INTO `hoteles` (cantidad_habitacion, descripcion_hotel, estado_hotel, logo, nombre_hotel, ruc, ubicacion_id, usuario_id) VALUES (20,'Lorem Ipsumis simply the filler text for printers and text files. Lorem Ipsum has been the standard filler text of industries since the 1500s,',1, 'SaraLogo2.png', 'Malibú Sucursal',1234577891,1,7);
 
-
-
+/*rating*/
+INSERT INTO `rating`(clasificacion,detalle,hoteles_id,usuario_id) VALUES (3.5,'buen hotel', 1, 1)
+INSERT INTO `rating`(clasificacion,detalle,hoteles_id,usuario_id) VALUES (3.5,'buen hotel', 2, 1)
+INSERT INTO `rating`(clasificacion,detalle,hoteles_id,usuario_id) VALUES (3.5,'buen hotel', 3, 1)
+INSERT INTO `rating`(clasificacion,detalle,hoteles_id,usuario_id) VALUES (3.5,'buen hotel', 4, 1)
+INSERT INTO `rating`(clasificacion,detalle,hoteles_id,usuario_id) VALUES (3.5,'buen hotel', 5, 1)
+INSERT INTO `rating`(clasificacion,detalle,hoteles_id,usuario_id) VALUES (3.5,'buen hotel', 1, 1)
+INSERT INTO `rating`(clasificacion,detalle,hoteles_id,usuario_id) VALUES (3.5,'buen hotel', 1, 1)
+INSERT INTO `rating`(clasificacion,detalle,hoteles_id,usuario_id) VALUES (3.5,'buen hotel', 2, 1)
+INSERT INTO `rating`(clasificacion,detalle,hoteles_id,usuario_id) VALUES (3.5,'buen hotel', 3, 1)
+INSERT INTO `rating`(clasificacion,detalle,hoteles_id,usuario_id) VALUES (3.5,'buen hotel', 4, 1)
+INSERT INTO `rating`(clasificacion,detalle,hoteles_id,usuario_id) VALUES (3.5,'buen hotel', 5, 1)
+INSERT INTO `rating`(clasificacion,detalle,hoteles_id,usuario_id) VALUES (3.5,'buen hotel', 1, 1)
 /*bar*/
 INSERT INTO `bar` (nombrebar,descripcion_bar, foto_bar,hoteles_id) VALUES ('bar1','t is an established fact too long ago that a reader will be distracted by the content of a sites text while looking at its design. The point of using Lorem Ipsum is that it has a more or less normal distribution of letters', 'bar.jpg',1);
 INSERT INTO `bar` (nombrebar,descripcion_bar, foto_bar,hoteles_id) VALUES ('bar2','t is an established fact too long ago that a reader will be distracted by the content of a sites text while looking at its design. The point of using Lorem Ipsum is that it has a more or less normal distribution of letters', 'bar2.jpg',1);
